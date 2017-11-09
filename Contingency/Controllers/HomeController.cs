@@ -26,5 +26,9 @@ namespace Contingency.Controllers
 
             return View();
         }
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
     }
 }
