@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DungeonLib.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,11 @@ namespace Contingency.Controllers
         public ActionResult Create()
         {
             return View();
+        }
+        public ActionResult Dungeon()
+        {
+            Dungeon d = new Dungeon("Default Dungeon",10,10,2);
+            return View(d);
         }
     }
 }

@@ -1,0 +1,20 @@
+﻿@model DungeonLib.Model.Dungeon
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dungeon</title>
+</head>
+<body>
+    <div>
+        <canvas class="dungeon-canvas"></canvas>
+    </div>
+    @Scripts.Render("~/Scripts/drawcanvas.js")
+</body>
+</html>
