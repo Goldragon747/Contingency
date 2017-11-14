@@ -115,18 +115,18 @@ namespace DungeonLib.Model
                             bool OnWall = false;
                             do
                             {
-                                
+
                                 if (currenty - 1 < 0)
                                 {
                                     break;
                                 }
                                 //OnWall = (Map[currentx, --currenty] > 1);
-                            } while (Map[currentx, --currenty ] > 1);//Breaks -- Fixed?
+                            } while (Map[currentx, --currenty] > 1);//Breaks -- Fixed?
                             break;
                         case Direction.East:
                             do
                             {
-                                if(currentx + 1 >= Width)
+                                if (currentx + 1 >= Width)
                                 {
                                     break;
                                 }
@@ -182,7 +182,7 @@ namespace DungeonLib.Model
                 case Direction.North:
                     for (int i = 0; i < length; i++)
                     {
-                        if(currenty - i < 0)
+                        if (currenty - i < 0)
                         {
                             return false;
                         }
@@ -231,7 +231,7 @@ namespace DungeonLib.Model
                         {
                             return false;
                         }
-                        else if (Map[currentx + i, currenty + 2] != 0)
+                        else if (Map[currentx + i, currenty + 2] != 0)//Breaks
                         {
                             return false;
                         }
@@ -391,7 +391,7 @@ namespace DungeonLib.Model
                         {
                             return false;
                         }
-                        else if (currentx + distanceOut > Width)
+                        else if (currentx + distanceOut >= Width)
                         {
                             return false;
                         }
@@ -428,7 +428,7 @@ namespace DungeonLib.Model
                         {
                             return false;
                         }
-                        else if (y + distanceOut > Height)
+                        else if (y + distanceOut >= Height)
                         {
                             return false;
                         }
@@ -469,7 +469,7 @@ namespace DungeonLib.Model
                         {
                             return false;
                         }
-                        else if (currentx + distanceOut > Width)
+                        else if (currentx + distanceOut >= Width)
                         {
                             return false;
                         }
@@ -506,7 +506,7 @@ namespace DungeonLib.Model
                         {
                             return false;
                         }
-                        else if (y + distanceOut > Height)
+                        else if (y + distanceOut >= Height)
                         {
                             return false;
                         }
@@ -533,10 +533,7 @@ namespace DungeonLib.Model
                     break;
                 default:
                     break;
-
             }
-
-
             return result;
         }
 
@@ -544,72 +541,66 @@ namespace DungeonLib.Model
         private void AddRoom(int size, Direction direction)
         {
             int distanceOut = (size / 2);
-
-            if (direction == Direction.North)
+            switch (direction)
             {
-                Map[currentx, --currenty] = 1;
-
-                for (int i = 0; i < size; i++)
-                {
-                    distanceOut = (size / 2);
-
-                    Map[currentx, currenty - i] = currentRoomNum;//? (Don't know if this actully breaks..)
-                    while (distanceOut > 0)
+                case Direction.North:
+                    Map[currentx, --currenty] = 1;
+                    for (int i = 0; i < size; i++)
                     {
-                        Map[currentx + distanceOut, currenty - i] = currentRoomNum;//Breaks
-                        Map[currentx - distanceOut, currenty - i] = currentRoomNum;
-                        distanceOut--;
+                        distanceOut = (size / 2);
+                        Map[currentx, currenty - i] = currentRoomNum;//? (Don't know if this actully breaks..)
+                        while (distanceOut > 0)
+                        {
+                            Map[currentx + distanceOut, currenty - i] = currentRoomNum;//Breaks -- Fixed? -- Yes!!
+                            Map[currentx - distanceOut, currenty - i] = currentRoomNum;//Breaks
+                            distanceOut--;
+                        }
                     }
-                }
-            }
-            else if (direction == Direction.East)
-            {
-                for (int i = 0; i < size; i++)
-                {
-                    distanceOut = (size / 2);
-
-                    Map[currentx + i, currenty] = currentRoomNum;
-                    while (distanceOut > 0)
+                    break;
+                case Direction.East:
+                    for (int i = 0; i < size; i++)
                     {
-                        Map[currentx + i, currenty + distanceOut] = currentRoomNum;
-                        Map[currentx + i, currenty - distanceOut] = currentRoomNum;//Breaks
-                        distanceOut--;
+                        distanceOut = (size / 2);
+                        Map[currentx + i, currenty] = currentRoomNum;
+                        while (distanceOut > 0)
+                        {
+                            Map[currentx + i, currenty + distanceOut] = currentRoomNum;
+                            Map[currentx + i, currenty - distanceOut] = currentRoomNum;//Breaks -- Fixed? -- Nope
+                            distanceOut--;
+                        }
                     }
-                }
-            }
-            else if (direction == Direction.South)
-            {
-                Map[currentx, ++currenty] = 1;
-
-                for (int i = 0; i < size; i++)
-                {
-                    distanceOut = (size / 2);
-
-                    Map[currentx, currenty + i] = currentRoomNum;
-                    while (distanceOut > 0)
+                    break;
+                case Direction.South:
+                    Map[currentx, ++currenty] = 1;
+                    for (int i = 0; i < size; i++)
                     {
-                        Map[currentx + distanceOut, currenty + i] = currentRoomNum;//Breaks
-                        Map[currentx - distanceOut, currenty + i] = currentRoomNum;
-                        distanceOut--;
+                        distanceOut = (size / 2);
+                        Map[currentx, currenty + i] = currentRoomNum;
+                        while (distanceOut > 0)
+                        {
+                            Map[currentx + distanceOut, currenty + i] = currentRoomNum;//Breaks -- Fixed?
+                            Map[currentx - distanceOut, currenty + i] = currentRoomNum;
+                            distanceOut--;
+                        }
                     }
-                }
-            }
-            else if (direction == Direction.West)
-            {
-                for (int i = 0; i < size; i++)
-                {
-                    distanceOut = (size / 2);
-
-                    Map[currentx - i, currenty] = currentRoomNum;
-                    while (distanceOut > 0)
+                    break;
+                case Direction.West:
+                    for (int i = 0; i < size; i++)
                     {
-                        Map[currentx - i, currenty + distanceOut] = currentRoomNum;
-                        Map[currentx - i, currenty - distanceOut] = currentRoomNum;//Breaks
-                        distanceOut--;
-                    }
-                }
-            }
+                        distanceOut = (size / 2);
 
+                        Map[currentx - i, currenty] = currentRoomNum;
+                        while (distanceOut > 0)
+                        {
+                            Map[currentx - i, currenty + distanceOut] = currentRoomNum;
+                            Map[currentx - i, currenty - distanceOut] = currentRoomNum;//Breaks -- Fixed? -- Nope
+                            distanceOut--;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
             currentRoomNum++;
         }
 
