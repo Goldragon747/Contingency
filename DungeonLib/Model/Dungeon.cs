@@ -95,6 +95,10 @@ namespace DungeonLib.Model
             bool result = false;
             Direction direction = Direction.North;
             bool inRoom = false;
+
+            int x = currentx;
+            int y = currenty;
+
             if (Map[currentx, currenty] > 1)
             {
                 inRoom = true;
@@ -103,30 +107,31 @@ namespace DungeonLib.Model
             for (int i = 0; i < 4; i++)//Note: I think I have flawed logic here with the x and y
             {
                 direction = (Direction)i;
-                //find the wall of the room that goes with the given direction
                 if (inRoom)
                 {
                     switch (direction)
                     {
                         case Direction.North:
+                            bool OnWall = false;
                             do
                             {
+                                
                                 if (currenty - 1 < 0)
                                 {
                                     break;
                                 }
-                                currenty--;
-                            } while (Map[currentx, currenty - 1] > 1);
+                                //OnWall = (Map[currentx, --currenty] > 1);
+                            } while (Map[currentx, --currenty ] > 1);//Breaks -- Fixed?
                             break;
                         case Direction.East:
                             do
                             {
-                                if(currentx + 1 > Width)
+                                if(currentx + 1 >= Width)
                                 {
                                     break;
                                 }
-                                currentx++;
-                            } while (Map[currentx + 1, currenty] > 1);
+
+                            } while (Map[++currentx, currenty] > 1);//Breaks -- Fixed? -- Still Breaks -- Fixed?
                             break;
                         case Direction.South:
                             do
@@ -135,8 +140,8 @@ namespace DungeonLib.Model
                                 {
                                     break;
                                 }
-                                currenty++;
-                            } while (Map[currentx, currenty + 1] > 1);
+
+                            } while (Map[currentx, ++currenty] > 1);//Breaks -- Fixed?
                             break;
                         case Direction.West:
                             do
@@ -152,6 +157,7 @@ namespace DungeonLib.Model
                             break;
                     }
                 }
+
                 result = IsClearForCorridor(direction, length);
                 if (result)
                 {
@@ -167,7 +173,7 @@ namespace DungeonLib.Model
         }
 
         //Checks if the area in the given direction is clear for a corridor of the given length
-        private bool IsClearForCorridor(Direction direction, int length)
+        private bool IsClearForCorridor(Direction direction, int length)//, int x, int y)
         {
             bool result = true;
 
@@ -335,7 +341,6 @@ namespace DungeonLib.Model
         //Checks if a room can be made and makes it if it's possible
         private bool TryMakeRoom(int size)
         {
-            //Check every direction
             Direction direction = Direction.North;
             bool result = false;
             if (Map[currentx, currenty] > 1)
@@ -371,7 +376,7 @@ namespace DungeonLib.Model
             switch (direction)
             {
                 case Direction.North:
-                    if (Map[x, y--] != 0)
+                    if (Map[x, --y] != 0)
                     {
                         return false;
                     }
@@ -548,10 +553,10 @@ namespace DungeonLib.Model
                 {
                     distanceOut = (size / 2);
 
-                    Map[currentx, currenty - i] = currentRoomNum;
+                    Map[currentx, currenty - i] = currentRoomNum;//? (Don't know if this actully breaks..)
                     while (distanceOut > 0)
                     {
-                        Map[currentx + distanceOut, currenty - i] = currentRoomNum;
+                        Map[currentx + distanceOut, currenty - i] = currentRoomNum;//Breaks
                         Map[currentx - distanceOut, currenty - i] = currentRoomNum;
                         distanceOut--;
                     }
@@ -567,7 +572,7 @@ namespace DungeonLib.Model
                     while (distanceOut > 0)
                     {
                         Map[currentx + i, currenty + distanceOut] = currentRoomNum;
-                        Map[currentx + i, currenty - distanceOut] = currentRoomNum;
+                        Map[currentx + i, currenty - distanceOut] = currentRoomNum;//Breaks
                         distanceOut--;
                     }
                 }
@@ -583,7 +588,7 @@ namespace DungeonLib.Model
                     Map[currentx, currenty + i] = currentRoomNum;
                     while (distanceOut > 0)
                     {
-                        Map[currentx + distanceOut, currenty + i] = currentRoomNum;
+                        Map[currentx + distanceOut, currenty + i] = currentRoomNum;//Breaks
                         Map[currentx - distanceOut, currenty + i] = currentRoomNum;
                         distanceOut--;
                     }
@@ -599,7 +604,7 @@ namespace DungeonLib.Model
                     while (distanceOut > 0)
                     {
                         Map[currentx - i, currenty + distanceOut] = currentRoomNum;
-                        Map[currentx - i, currenty - distanceOut] = currentRoomNum;
+                        Map[currentx - i, currenty - distanceOut] = currentRoomNum;//Breaks
                         distanceOut--;
                     }
                 }
@@ -608,12 +613,12 @@ namespace DungeonLib.Model
             currentRoomNum++;
         }
 
-
         // Takes in an inclusive upper and lower bound and returns a random int between between the x and y parameters
         public int GetRandom(int x, int y)
         {
             return rand.Next(x, y + 1);
         }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
