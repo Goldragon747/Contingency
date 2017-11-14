@@ -14,10 +14,10 @@ namespace Contingency.Controllers
         {
             return View();
         }
-        public ActionResult Dungeon()
+        public ActionResult DM()
         {
-            Dungeon d = new Dungeon("Default Dungeon",10,10,2);
-            return View(d);
+            //Dungeon d = new Dungeon("Default Dungeon",10,10,2);
+            return View();
         }
     }
 }
