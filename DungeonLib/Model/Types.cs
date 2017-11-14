@@ -13,9 +13,9 @@ namespace DungeonLib.Model
 
     public enum Direction
     {
-        North,
-        East,
-        South,
-        West
+        North = 0,
+        East = 1,
+        South = 2,
+        West = 3
     }
 }
