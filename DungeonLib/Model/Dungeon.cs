@@ -75,15 +75,21 @@ namespace DungeonLib.Model
                 int corridorCreationAttempts = 0;
                 while (!roomCreation)
                 {
-                    roomCreation = TryMakeRoom(sizes[roomCreationAttempts++]);
+                    roomCreation = TryMakeRoom(sizes[GetRandom(0, 2)]);
                     if (roomCreationAttempts == 3)
+                    {
                         break;
+                    }
+                    roomCreationAttempts++;
                 }
                 while (!corridorCreation | corridorCreationAttempts < 3)
                 {
-                    corridorCreation = TryMakeCorridor(sizes[corridorCreationAttempts++]);
+                    corridorCreation = TryMakeCorridor(sizes[GetRandom(0, 2)]);
                     if (corridorCreationAttempts == 3)
+                    {
                         break;
+                    }
+                    corridorCreationAttempts++;
                 }
             }
             while (roomCreation || corridorCreation);
@@ -99,11 +105,10 @@ namespace DungeonLib.Model
             int x = currentx;
             int y = currenty;
 
-            if (Map[currentx, currenty] > 1)
+            if (Map[currentx, currenty] > 1)//Breaks (IndexOutOfRangeException)
             {
                 inRoom = true;
             }
-
             for (int i = 0; i < 4; i++)//Note: I think I have flawed logic here with the x and y
             {
                 direction = (Direction)i;
@@ -115,7 +120,6 @@ namespace DungeonLib.Model
                             bool OnWall = false;
                             do
                             {
-
                                 if (currenty - 1 < 0)
                                 {
                                     break;
@@ -130,7 +134,6 @@ namespace DungeonLib.Model
                                 {
                                     break;
                                 }
-
                             } while (Map[++currentx, currenty] > 1);//Breaks -- Fixed? -- Still Breaks -- Fixed?
                             break;
                         case Direction.South:
@@ -140,7 +143,6 @@ namespace DungeonLib.Model
                                 {
                                     break;
                                 }
-
                             } while (Map[currentx, ++currenty] > 1);//Breaks -- Fixed?
                             break;
                         case Direction.West:
@@ -150,14 +152,12 @@ namespace DungeonLib.Model
                                 {
                                     break;
                                 }
-                                currentx--;
-                            } while (Map[currentx - 1, currenty] > 1);
+                            } while (Map[--currentx, currenty] > 1);
                             break;
                         default:
                             break;
                     }
                 }
-
                 result = IsClearForCorridor(direction, length);
                 if (result)
                 {
@@ -322,7 +322,7 @@ namespace DungeonLib.Model
             }
             else if (direction == Direction.South)
             {
-                for (int i = 1; i < length; i++)
+                for (int i = 0; i < length; i++)
                 {
                     Map[x, y + i] = 1;
                     currenty++;
@@ -330,7 +330,7 @@ namespace DungeonLib.Model
             }
             else if (direction == Direction.West)
             {
-                for (int i = 1; i < length; i++)
+                for (int i = 0; i < length; i++)
                 {
                     Map[x - i, y] = 1;
                     currentx--;
@@ -376,7 +376,11 @@ namespace DungeonLib.Model
             switch (direction)
             {
                 case Direction.North:
-                    if (Map[x, --y] != 0)
+                    if(y - 1 < 0)
+                    {
+                        return false;
+                    }
+                    else if (Map[x, --y] != 0)
                     {
                         return false;
                     }
@@ -399,21 +403,21 @@ namespace DungeonLib.Model
                         {
                             return false;
                         }
-                        else
-                        {
-                            while (distanceOut > 0)
-                            {
-                                if (Map[x + distanceOut, y - i] != 0)
-                                {
-                                    return false;
-                                }
-                                else if (Map[x - distanceOut, y - i] != 0)
-                                {
-                                    return false;
-                                }
-                                distanceOut--;
-                            }
-                        }
+                        //else
+                        //{
+                        //    while (distanceOut > 0)
+                        //    {
+                        //        if (Map[x + distanceOut, y - i] != 0)
+                        //        {
+                        //            return false;
+                        //        }
+                        //        else if (Map[x - distanceOut, y - i] != 0)
+                        //        {
+                        //            return false;
+                        //        }
+                        //        distanceOut--;
+                        //    }
+                        //}
                     }
                     break;
                 case Direction.East:
@@ -436,21 +440,21 @@ namespace DungeonLib.Model
                         {
                             return false;
                         }
-                        else
-                        {
-                            while (distanceOut > 0)
-                            {
-                                if (Map[x + i, y - distanceOut] != 0)
-                                {
-                                    return false;
-                                }
-                                else if (Map[x + i, y + distanceOut] != 0)
-                                {
-                                    return false;
-                                }
-                                distanceOut--;
-                            }
-                        }
+                        //else
+                        //{
+                        //    while (distanceOut > 0)
+                        //    {
+                        //        if (Map[x + i, y - distanceOut] != 0)
+                        //        {
+                        //            return false;
+                        //        }
+                        //        else if (Map[x + i, y + distanceOut] != 0)
+                        //        {
+                        //            return false;
+                        //        }
+                        //        distanceOut--;
+                        //    }
+                        //}
                     }
                     break;
                 case Direction.South:
@@ -477,21 +481,21 @@ namespace DungeonLib.Model
                         {
                             return false;
                         }
-                        else
-                        {
-                            while (distanceOut > 0)
-                            {
-                                if (Map[x + distanceOut, y + i] != 0)
-                                {
-                                    return false;
-                                }
-                                else if (Map[x - distanceOut, y + i] != 0)
-                                {
-                                    return false;
-                                }
-                                distanceOut--;
-                            }
-                        }
+                        //else
+                        //{
+                        //    while (distanceOut > 0)
+                        //    {
+                        //        if (Map[x + distanceOut, y + i] != 0)
+                        //        {
+                        //            return false;
+                        //        }
+                        //        else if (Map[x - distanceOut, y + i] != 0)
+                        //        {
+                        //            return false;
+                        //        }
+                        //        distanceOut--;
+                        //    }
+                        //}
                     }
                     break;
                 case Direction.West:
@@ -514,21 +518,21 @@ namespace DungeonLib.Model
                         {
                             return false;
                         }
-                        else
-                        {
-                            while (distanceOut > 0)
-                            {
-                                if (Map[x - i, y - distanceOut] != 0)
-                                {
-                                    return false;
-                                }
-                                else if (Map[x - i, y + distanceOut] != 0)
-                                {
-                                    return false;
-                                }
-                                distanceOut--;
-                            }
-                        }
+                        //else
+                        //{
+                        //    while (distanceOut > 0)
+                        //    {
+                        //        if (Map[x - i, y - distanceOut] != 0)
+                        //        {
+                        //            return false;
+                        //        }
+                        //        else if (Map[x - i, y + distanceOut] != 0)
+                        //        {
+                        //            return false;
+                        //        }
+                        //        distanceOut--;
+                        //    }
+                        //}
                     }
                     break;
                 default:
@@ -544,11 +548,11 @@ namespace DungeonLib.Model
             switch (direction)
             {
                 case Direction.North:
-                    Map[currentx, --currenty] = 1;
+                    Map[currentx, currenty--] = 1;
                     for (int i = 0; i < size; i++)
                     {
                         distanceOut = (size / 2);
-                        Map[currentx, currenty - i] = currentRoomNum;//? (Don't know if this actully breaks..)
+                        Map[currentx, currenty - i] = currentRoomNum;//? (Don't know if this actully breaks..) -- Maybe? -- Yes it does break
                         while (distanceOut > 0)
                         {
                             Map[currentx + distanceOut, currenty - i] = currentRoomNum;//Breaks -- Fixed? -- Yes!!
