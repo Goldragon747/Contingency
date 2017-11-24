@@ -3,6 +3,39 @@
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
 
-<div class="create-board"></div>
+<div class="create-board">
+    <div id="form-container">
+        <h3 id="create-title">
+            Dungeon Dimensions
+        </h3>
+        <form>
+            <div id="dimensions">
+                <input class="input-field" type="text" value="testing text 1">
+            </div>
+            <div id="monsters">
+                <input class="input-field" type="text" value="testing text 2">
+            </div>
+            <div id="loot">
+                <input class="input-field" type="text" value="testing text 3">
+            </div>
+            <div id="submit_container">
+                <input type="button" class="button" id="back-button" onclick="Back()">
+                <input type="button" class="ok-button button" onclick="Generate()" value="Generate">
+                <input type="button" class="ok-button button" id="temp-ok" onclick="Next()" value="OK">
+                <input class="ok-button button" id="final-ok" type="submit" value="Finish" />
+            </div>
+        </form>
+    </div>
+    <div id="preview-container">
+        <div id="preview-display">
 
+        </div>
+        <div id="err">
+            <p>*Error message</p>
+            <p>*Error message</p>
+            <p>*Error message</p>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/dungeon-creator.js"></script>
     
