@@ -1,4 +1,4 @@
-﻿
+﻿@model Contingency.Models.DungeonCreator
 @{
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
@@ -8,9 +8,10 @@
         <h3 id="create-title">
             Dungeon Dimensions
         </h3>
-        <form>
+        @using (Html.BeginForm())
+        {
             <div id="dimensions">
-                <input class="input-field" type="text" value="testing text 1">
+                <input class="input-field" type="text" value="testing text 1"><!--HAS TO BE RAZOR INPUT FIELDS-->
             </div>
             <div id="monsters">
                 <input class="input-field" type="text" value="testing text 2">
@@ -24,7 +25,7 @@
                 <input type="button" class="ok-button button" id="temp-ok" onclick="Next()" value="OK">
                 <input class="ok-button button" id="final-ok" type="submit" value="Finish" />
             </div>
-        </form>
+        }
     </div>
     <div id="preview-container">
         <div id="preview-display">

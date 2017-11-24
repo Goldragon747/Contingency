@@ -1,4 +1,4 @@
-﻿@model DungeonLib.Model.Dungeon
+﻿@model Contingency.Models.DungeonCreator
 
 @{
     Layout = null;
@@ -12,17 +12,7 @@
 </head>
 <body>
     <div>
-        <canvas class="dungeon-canvas"></canvas>
+        I need to design this :/
     </div>
-    <script>
-        var canvas = Document.getElementsByClass("dungeon-canvas")[0];
-        var ctx = canvas.getContext('2d');
-        var map = @Model.Map;
-        console.log(map);
-        function draw() {
-            
-        }
-        draw();
-    </script>
 </body>
 </html>
