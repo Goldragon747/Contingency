@@ -10,6 +10,7 @@ namespace Contingency.Controllers
 {
     public class DungeonController : Controller
     {
+        DungeonCreator currentDungeonToView;
         // GET: Dungeon
         [HttpGet]
         public ActionResult Create()
@@ -20,12 +21,27 @@ namespace Contingency.Controllers
         [HttpPost]
         public ActionResult Create(DungeonCreator dc)
         {
-            return RedirectToAction("DM", dc);
+            currentDungeonToView = dc;
+            return RedirectToAction("Dungeon");
         }
-        public ActionResult DM(DungeonCreator dc)
+        public ActionResult Dungeon()
         {
-            return View(dc);
+            return View(currentDungeonToView);
         }
-        
+        public ActionResult Room(int dungeonID, int roomID)
+        {
+            //set currentDungeonToView to the dungeon with dungeonid, and change the model to be a room object
+            return View(currentDungeonToView);
+        }
+        public ActionResult Configure(int dungeonID)
+        {
+            //set currentDungeonToView to the dungeon with dungeonid
+            return View(currentDungeonToView);
+        }
+        public ActionResult Players(int dungeonID)
+        {
+            //set currentDungeonToView to the dungeon with dungeonid
+            return View(currentDungeonToView);
+        }
     }
 }

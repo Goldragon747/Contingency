@@ -2,8 +2,9 @@
     background: url('Images/dungeon_bg.png') fixed;
     background-origin: content-box;
     background-size: 100% auto;
-    margin:0;
-    color:#f5f5f5;
+    margin: 0;
+    color: #f5f5f5;
+    font-family: 'Cabin', sans-serif;
 }
 .login {
     font-size: 1.5em;

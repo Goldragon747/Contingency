@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dungeon</title>
+    @Styles.Render("~/Content/dungeon.css")
+    <link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
+</head>
+<body>
+    <nav id="dm-nav">
+        <h2 id="logo">@Html.ActionLink("Contingency", "Dungeon", new { dungeonID = 99999 })</h2>
+        <ul>
+            <li>@Html.ActionLink("Dungeon", "Dungeon", new { dungeonID = 99999 })</li>
+            <li>@Html.ActionLink("Room", "Room", new { dungeonID = 99999, RoomID = 99999 })</li><!--DROP DOWN EVENTUALLY-->
+            <li>@Html.ActionLink("Configure", "Configure", new { dungeonID = 99999 })</li>
+            <li>@Html.ActionLink("Players", "Players", new { dungeonID = 99999 })</li>
+        </ul>
+    </nav>
+    @RenderBody()
+</body>
+</html>
