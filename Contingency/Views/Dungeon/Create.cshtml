@@ -11,7 +11,29 @@
         @using (Html.BeginForm())
         {
             <div id="dimensions">
-                <input class="input-field" type="text" value="testing text 1"><!--HAS TO BE RAZOR INPUT FIELDS-->
+                Traps
+                @Html.CheckBoxFor(model => model.Traps)
+                <br />
+                CR
+                @Html.EnumDropDownListFor(model => model.CR)
+                <br />
+                Dungeon Size
+                @Html.EnumDropDownListFor(model => model.DS)
+                <br />
+                Loot Group
+                @Html.EnumDropDownListFor(model => model.LG)
+                <br />
+                Enemy Group
+                @Html.EnumDropDownListFor(model => model.EG)
+                <br />
+                Loot By Amount
+                @Html.TextBoxFor(model => model.LootByAmount)
+                <br />
+                Minimum Loot Value
+                @Html.TextBoxFor(model => model.MinValue)
+                <br />
+                Dungeon Size
+                <input type="range" min="0" max="100" />
             </div>
             <div id="monsters">
                 <input class="input-field" type="text" value="testing text 2">
@@ -39,4 +61,3 @@
     </div>
 </div>
 <script src="~/Scripts/dungeon-creator.js"></script>
-    
