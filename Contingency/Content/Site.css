@@ -71,7 +71,7 @@ ul{
     font-size: 1.2em;
     border: 2px solid #f5f5f5;
     border-radius: 5px;
-    background: none;
+    background: #222;
     color: #f5f5f5;
     transition: color .5s;
     cursor: pointer;
@@ -90,7 +90,7 @@ ul{
     margin: 10px 20px;
     transition: color .5s;
     cursor: pointer;
-    text-shadow: 0 0 10px #000;
+    background:#222;
 }
 .title_button:hover, .login_button:hover {
     background: #f5f5f5;
@@ -119,6 +119,28 @@ h2 {
     opacity:.8;
     width:600px;
 }
+#back-button {
+    padding: 0;
+    background: url('Images/back.png') no-repeat;
+    background-size: contain;
+    width: 40px;
+    height: 40px;
+    transition: background .3s;
+    float:left;
+    margin:20px 0 0 45px;
+    border:2px solid #f5f5f5;
+    border-radius:4px;
+}
+
+#back-button:hover {
+    background: url('Images/back-h.png') no-repeat;
+    background-size: contain;
+}
+.form-group {
+    display: inline-block;
+    width: 304px;
+}
+
 @font-face {
     font-family: dungeon;
     src: url(../fonts/DUNGRG__.TTF);

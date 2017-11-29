@@ -15,7 +15,11 @@
             <li>@Html.ActionLink("Room", "Room", new { dungeonID = 99999, RoomID = 99999 })</li><!--DROP DOWN EVENTUALLY-->
             <li>@Html.ActionLink("Configure", "Configure", new { dungeonID = 99999 })</li>
             <li>@Html.ActionLink("Players", "Players", new { dungeonID = 99999 })</li>
+            <li id="logout">
+                @Html.ActionLink("Hello, Michael  |   Logout", "Logout")
+            </li>
         </ul>
+        
     </nav>
     @RenderBody()
 </body>

@@ -21,6 +21,11 @@ nav a {
     display: block;
     padding-top: 14px;
 }
+h3{
+    font-family:dungeon;
+    font-size:4em;
+    margin:10px 50px;
+}
 nav ul {
     margin:0;
     height:50px;
@@ -50,6 +55,19 @@ nav ul li:hover {
 #logo a{
     display:initial;
     padding:0;
+}
+
+#dung-canvas {
+    margin: 10px 50px;
+    background:#222;
+    height:500px;
+    overflow:scroll;
+}
+#logout{
+    display:inline-block;
+    text-align:center;
+    float:right;
+    width:200px;
 }
 @font-face {
     font-family: dungeon;
