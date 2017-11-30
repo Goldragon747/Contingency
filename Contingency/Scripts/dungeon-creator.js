@@ -109,6 +109,54 @@ function GenerateDungeon() {
     }
     draw();
 }
+function GenerateDungeon2() {
+    console.log("hello");
+    document.getElementById("dung-canvas").innerHTML = "<canvas id='dungeon-canvas' width='500' height='500'></canvas>";
+    var canvas = document.getElementById("dungeon-canvas");
+    var ctx = canvas.getContext('2d');
+    var blocksize;
+    var map = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0],
+        [1, 1, 1, 2, 2, 2, 0, 4, 4, 4, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0],
+        [0, 0, 0, 2, 2, 2, 0, 4, 4, 4, 1, 1, 5, 5, 5, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 4, 4, 4, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0],
+        [0, 0, 3, 3, 3, 3, 3, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 3, 3, 3, 3, 3, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 3, 3, 3, 3, 3, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0],
+        [0, 0, 0, 8, 8, 8, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0],
+        [0, 0, 0, 8, 8, 8, 1, 1, 0, 0, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0],
+        [0, 0, 0, 8, 8, 8, 0, 1, 0, 0, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0],
+        [0, 0, 0, 8, 8, 8, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 9, 9, 9, 9, 9, 0],
+        [0, 0, 0, 0, 7, 7, 7, 0, 0, 1, 0, 0, 1, 0, 9, 9, 9, 9, 9, 0],
+        [0, 0, 1, 1, 7, 7, 7, 1, 1, 1, 1, 1, 1, 1, 9, 9, 9, 9, 9, 0],
+        [0, 0, 1, 0, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 0],
+        [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 0]
+    ];
+    function draw() {
+        blocksize = canvas.clientHeight / map.length;
+        for (var i = 0; i < map.length; i++) {
+            for (var j = 0; j < map.length; j++) {
+                if (map[i][j] == 0) {
+                    drawRect(j * blocksize, i * blocksize, 0, 0, 0);
+                } else if (map[i][j] == 1) {
+                    drawRect(j * blocksize, i * blocksize, 255, 255, 255);
+                } else {
+                    drawRect(j * blocksize, i * blocksize, 55, 255, 55);
+                }
+            }
+        }
+    }
+    function drawRect(x, y, r, g, b) {
+        ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+        ctx.fillRect(x, y, blocksize, blocksize);
+    }
+    draw();
+}
 function GenetateMonsters() {
     preview.innerHTML = "Monsters! :D";
 }
