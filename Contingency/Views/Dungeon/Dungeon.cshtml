@@ -1,0 +1,16 @@
+﻿@model Contingency.Models.DungeonCreator
+
+@{
+    ViewBag.Title = "Dungeon";
+    Layout = "~/Views/Shared/_DMLayout.cshtml";
+}
+
+<h3>Dungeon</h3>
+<!--<canvas id="preview-display" width="800" height="1000"></canvas>-->
+<div id="dung-canvas">
+    
+</div>
+<script src="~/Scripts/dungeon-creator.js"></script>
+<script>
+    GenerateDungeon2();
+</script>

@@ -1,4 +1,5 @@
-﻿using DungeonLib.Model;
+﻿using Contingency.Models;
+using DungeonLib.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,38 +10,38 @@ namespace Contingency.Controllers
 {
     public class DungeonController : Controller
     {
+        DungeonCreator currentDungeonToView;
         // GET: Dungeon
+        [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            DungeonCreator dc = new DungeonCreator();
+            return View(dc);
         }
-        public ActionResult DM()
+        [HttpPost]
+        public ActionResult Create(DungeonCreator dc)
         {
-            int[,] hardcode =
-            {
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-                { 0,0,0,2,2,2,0,0,0,0,0,0,5,5,5,0,0,0,0,0 },
-                { 1,1,1,2,2,2,0,4,4,4,0,0,5,5,5,0,0,0,0,0 },
-                { 0,0,0,2,2,2,0,4,4,4,1,1,5,5,5,0,0,0,0,0 },
-                { 0,0,0,0,1,0,0,4,4,4,0,0,5,5,5,0,0,0,0,0 },
-                { 0,0,0,0,1,0,0,0,1,0,0,0,5,5,5,0,0,0,0,0 },
-                { 0,0,3,3,3,3,3,0,1,0,0,0,0,1,0,0,0,0,0,0 },
-                { 0,0,3,3,3,3,3,0,1,0,0,0,0,1,0,0,0,0,0,0 },
-                { 0,0,3,3,3,3,3,1,1,0,0,0,1,1,0,0,0,0,0,0 },
-                { 0,0,3,3,3,3,3,0,0,0,0,0,1,0,0,0,0,0,0,0 },
-                { 0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,0,0,0,0 },
-                { 0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,0,0,0,0 },
-                { 0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,0,0,0,0 },
-                { 0,0,0,0,0,0,0,0,0,0,6,6,6,6,6,6,0,0,0,0 },
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-                { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
-            };
-            Dungeon d = new Dungeon("Default Dungeon",hardcode);
-            return View(d);
+            currentDungeonToView = dc;
+            return RedirectToAction("Dungeon");
+        }
+        public ActionResult Dungeon()
+        {
+            return View(currentDungeonToView);
+        }
+        public ActionResult Room(int dungeonID, int roomID)
+        {
+            //set currentDungeonToView to the dungeon with dungeonid, and change the model to be a room object
+            return View(currentDungeonToView);
+        }
+        public ActionResult Configure(int dungeonID)
+        {
+            //set currentDungeonToView to the dungeon with dungeonid
+            return View(currentDungeonToView);
+        }
+        public ActionResult Players(int dungeonID)
+        {
+            //set currentDungeonToView to the dungeon with dungeonid
+            return View(currentDungeonToView);
         }
     }
 }
