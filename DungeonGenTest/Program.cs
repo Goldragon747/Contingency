@@ -11,7 +11,7 @@ namespace DungeonGenTest
     {
         static void Main(string[] args)
         {
-            Dungeon d = new Dungeon("test", 25, 25, 0);
+            Dungeon d = new Dungeon("test", 40, 40, 0);
             Console.WriteLine(d.ToString());
         }
     }
