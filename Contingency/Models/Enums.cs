@@ -9,16 +9,16 @@ namespace Contingency.Models
     {
         public enum DungeonSize
         {
-            small,
-            medium,
-            large,
-            massive
+            Small,
+            Medium,
+            Large,
+            Massive
         }
         public enum EnemyGroups
         {
-            undead,
-            humanoid,
-            nonHumanoid
+            Undead,
+            Humanoid,
+            NonHumanoid
         }
         public enum LootGroups
         {
