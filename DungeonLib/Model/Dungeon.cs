@@ -12,8 +12,21 @@ namespace DungeonLib.Model
      *   - Super lazer beam corridors.
      *   - Stops before finishing
      *   - Paul Fox still hasn't given us a pizza party yet :(
+     *   
+     *   FEATURES TO ADD
+     *   - Add parameters to the constructor
+     *      - Small room weight
+     *      - Medium room weight
+     *      - Large room weight
+     *      - Massive room weight
+     *   - Room weighting logic
      */
 
+    public struct Room
+    {
+        public int Width { get; set; }
+        public int Height { get; set; }
+    }
 
     public class Dungeon
     {
@@ -22,21 +35,34 @@ namespace DungeonLib.Model
         public int[,] Map { get; private set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
-        public int NumOfEntrances { get; private set; }
+        public int RoomWeightSmall { get; private set; }
+        public int RoomWeightMedium { get; private set; }
+        public int RoomWeightLarge { get; private set; }
+        public int RoomWeightMassive { get; private set; }
+
         public int NumOfLootChests { get; private set; }
         public List<Monster> Monsters { get; private set; }
         public bool TrapDoors { get; private set; }
 
+        private List<Room> smallRooms;
+        private List<Room> mediumRooms;
+        private List<Room> largeRooms;
+        private List<Room> massiveRooms;
         private int currentRoomNum = 2;
         private int currentx;
         private int currenty;
 
-        public Dungeon(string dungeonName, int width, int height, int numOfEntrances)
+        public Dungeon(string dungeonName, int width, int height, int smlRmWeight, int medRmWeight, int lrgRmWeight, int massRmWeight)
         {
             DungeonName = dungeonName;
             Width = width;
             Height = height;
-            NumOfEntrances = numOfEntrances;
+            RoomWeightSmall = smlRmWeight;
+            RoomWeightMedium = medRmWeight;
+            RoomWeightLarge = lrgRmWeight;
+            RoomWeightMassive = massRmWeight;
+
+            SetRoomSizes();
 
             GenerateMap(width, height);
         }
@@ -44,6 +70,59 @@ namespace DungeonLib.Model
         public Dungeon(string dungeonName, int[,] map)
         {
             Map = map;
+        }
+
+        //Sets the room lists equal to lists containing all their possible sizes
+        public  void SetRoomSizes()
+        {
+            //3x3, 5x5, 5x3, 7x5, 7x3 // 5 rooms
+            smallRooms = new List<Room> {
+                new Room { Width = 3, Height = 3 },
+                new Room { Width = 5, Height = 5 },
+                new Room { Width = 5, Height = 3 },
+                new Room { Width = 7, Height = 5 },
+                new Room { Width = 7, Height = 3 }
+            };
+
+            //7x7, 9x7, 9x9, 11x7, 11x9, 11x11, 11x5, 11x3 // 8 rooms
+            mediumRooms = new List<Room> {
+                new Room { Width = 7, Height = 7 },
+                new Room { Width = 9, Height = 7 },
+                new Room { Width = 9, Height = 9 },
+                new Room { Width = 11, Height = 7 },
+                new Room { Width = 11, Height = 9 },
+                new Room { Width = 11, Height = 11 },
+                new Room { Width = 11, Height = 5 },
+                new Room { Width = 11, Height = 3 }
+            };
+
+            //13x13, 13x9, 13x5, 13x3, 15x15, 15x13, 15x11, 15x9, 15x7, 15x5, 15x3 // 11 rooms
+            largeRooms = new List<Room> {
+                new Room { Width = 13, Height = 13 },
+                new Room { Width = 13, Height = 9 },
+                new Room { Width = 13, Height = 5 },
+                new Room { Width = 13, Height = 3 },
+                new Room { Width = 15, Height = 15 },
+                new Room { Width = 15, Height = 13 },
+                new Room { Width = 15, Height = 11 },
+                new Room { Width = 15, Height = 9 },
+                new Room { Width = 15, Height = 7 },
+                new Room { Width = 15, Height = 5 },
+                new Room { Width = 15, Height = 3 }
+
+            };
+
+            //17x17, 17x13, 17x9, 17x5, 19x19, 19x15, 19x7, 21x21 // 8 rooms
+            massiveRooms = new List<Room> {
+                new Room { Width = 17, Height = 17 },
+                new Room { Width = 17, Height = 13 },
+                new Room { Width = 17, Height = 9 },
+                new Room { Width = 17, Height = 5 },
+                new Room { Width = 19, Height = 19 },
+                new Room { Width = 19, Height = 15 },
+                new Room { Width = 19, Height = 7 },
+                new Room { Width = 21, Height = 21 },
+            };
         }
 
         private void GenerateMap(int width, int height)
@@ -66,7 +145,6 @@ namespace DungeonLib.Model
             currentx = GetRandom(0, width - 1);
             currenty = GetRandom(0, height - 1);
             Console.WriteLine($"{currentx}, {currenty}");
-            //Map[currentx, currenty] = -50;
 
             int[] sizes = { 7, 3, 5 };
 
