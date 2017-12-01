@@ -18,4 +18,10 @@ namespace DungeonLib.Model
         South = 2,
         West = 3
     }
+
+    public enum CreationType
+    {
+        Room,
+        Corridor
+    }
 }

@@ -6,6 +6,15 @@ using System.Threading.Tasks;
 
 namespace DungeonLib.Model
 {
+    /*
+     *  PROBLEMS LEFT TO FIX:
+     *   - Room check fails on corners. Rooms overlap at corners.
+     *   - Super lazer beam corridors.
+     *   - Stops before finishing
+     *   - Paul Fox still hasn't given us a pizza party yet :(
+     */
+
+
     public class Dungeon
     {
         Random rand = new Random();
@@ -56,7 +65,8 @@ namespace DungeonLib.Model
         {
             currentx = GetRandom(0, width - 1);
             currenty = GetRandom(0, height - 1);
-            Map[currentx, currenty] = 17;
+            Console.WriteLine($"{currentx}, {currenty}");
+            //Map[currentx, currenty] = -50;
 
             int[] sizes = { 7, 3, 5 };
 
@@ -80,7 +90,7 @@ namespace DungeonLib.Model
                     roomCreationAttempts++;
                 }
 
-                while (!corridorCreation | corridorCreationAttempts < 3)
+                while (!corridorCreation)
                 {
                     corridorCreation = TryMakeCorridor(sizes[GetRandom(0, 2)]);
                     if (corridorCreationAttempts == 3)
@@ -100,27 +110,18 @@ namespace DungeonLib.Model
         //Checks if a room can be made and makes it if it's possible
         private bool TryMakeRoom(int size)
         {
-            Direction direction = Direction.North;
             bool result = false;
             if (Map[currentx, currenty] > 1) //Breaks -- Fixed?
             {
                 return false;
             }
 
+            List<Direction> directions = GetDirectionsPossible(size, CreationType.Room);
 
-            for (int i = 0; i < 4; i++)
+            if (directions.Count > 0)
             {
-                direction = (Direction)i;
-                result = IsClearForRoom(direction, size);
-                if (result)
-                {
-                    break;
-                }
-            }
-
-            if (result)
-            {
-                AddRoom(size, direction);
+                result = true;
+                AddRoom(size, directions.ElementAt(GetRandom(0, directions.Count - 1)));
             }
             return result;
         }
@@ -135,9 +136,14 @@ namespace DungeonLib.Model
             switch (direction)
             {
                 case Direction.North:
+                    if (y - distanceOut < 0 || y + distanceOut >= Height)
+                    {
+                        return false;
+                    }
+                    //CheckForRoom(size, currentx, currenty, -1, direction, distanceOut);
                     for (int i = 0; i < size; i++)
                     {
-                        distanceOut = (size / 2) + 1;
+                        distanceOut = (size / 2);
                         if (x - i < 0)
                         {
                             return false;
@@ -146,46 +152,61 @@ namespace DungeonLib.Model
                         {
                             return false;
                         }
-                        else if (y + distanceOut >= Height)
+                        else if (Map[x - i, y - distanceOut] != 0 || Map[x - i, y + distanceOut] != 0)
                         {
                             return false;
                         }
-                        else if (y - distanceOut < 0)
+                        else if (y - (distanceOut + 1) >= 0 && Map[x - i, y - (distanceOut + 1)] != 0)
+                        {
+                            return false;
+                        }
+                        else if (y + (distanceOut + 1) > Height && Map[x - i, y + (distanceOut + 1)] != 0)
                         {
                             return false;
                         }
                     }
                     break;
                 case Direction.East:
-                    if (Map[x, y++] != 0)
+                    if (x - distanceOut < 0 || x + distanceOut >= Width)
                     {
                         return false;
                     }
+                    //CheckForRoom(size, currentx, currenty, 1, direction, distanceOut);
+
                     for (int i = 0; i < size; i++)
                     {
-                        distanceOut = (size / 2) + 1;
+                        distanceOut = (size / 2);
                         if (y + i < 0)
                         {
                             return false;
                         }
-                        else if (Map[x, y + i] != 0)
+                        else if (Map[x, y + i] != 0) //Breaks -- Fixed?
                         {
                             return false;
                         }
-                        else if (currentx + distanceOut >= Width)
+                        else if (Map[x - distanceOut, y + i] != 0 || Map[x + distanceOut, y + i] != 0)
                         {
                             return false;
                         }
-                        else if (currentx - distanceOut < 0)
+                        else if (x - (distanceOut + 1) >= 0 && Map[x - (distanceOut + 1), y + i] != 0)
+                        {
+                            return false;
+                        }
+                        else if (x + (distanceOut + 1) > Width && Map[x + (distanceOut + 1), y + i] != 0)
                         {
                             return false;
                         }
                     }
                     break;
                 case Direction.South:
+                    if (y - distanceOut < 0 || y + distanceOut >= Height)
+                    {
+                        return false;
+                    }
+                    //CheckForRoom(size, currentx, currenty, 1, direction, distanceOut);
                     for (int i = 0; i < size; i++)
                     {
-                        distanceOut = (size / 2) + 1;
+                        distanceOut = (size / 2);
                         if (x + i >= Width)
                         {
                             return false;
@@ -194,28 +215,27 @@ namespace DungeonLib.Model
                         {
                             return false;
                         }
-                        else if (y + distanceOut >= Height)
+
+                        else if (y - (distanceOut + 1) >= 0 && Map[x + i, y - (distanceOut + 1)] != 0)
                         {
                             return false;
                         }
-                        else if (y - distanceOut < 0)
+                        else if (y + (distanceOut + 1) > Height && Map[x + i, y + (distanceOut + 1)] != 0)
                         {
                             return false;
                         }
                     }
+
                     break;
                 case Direction.West:
-                    if (y - 1 < 0)
+                    if (x - distanceOut < 0 || x + distanceOut >= Width)
                     {
                         return false;
                     }
-                    else if (Map[x, --y] != 0)
-                    {
-                        return false;
-                    }
+                    //CheckForRoom(size, currentx, currenty, -1, direction, distanceOut);
                     for (int i = 0; i < size; i++)
                     {
-                        distanceOut = (size / 2) + 1;
+                        distanceOut = (size / 2);
                         if (y - i < 0)
                         {
                             return false;
@@ -224,11 +244,15 @@ namespace DungeonLib.Model
                         {
                             return false;
                         }
-                        else if (currentx + distanceOut >= Width)
+                        else if (Map[x - distanceOut, y - i] != 0 || Map[x + distanceOut, y - i] != 0)
                         {
                             return false;
                         }
-                        else if (currentx - distanceOut < 0)
+                        else if (x - (distanceOut + 1) >= 0 && Map[x - (distanceOut + 1), y - i] != 0)
+                        {
+                            return false;
+                        }
+                        else if (x + (distanceOut + 1) > Width && Map[x + (distanceOut + 1), y - i] != 0)
                         {
                             return false;
                         }
@@ -253,7 +277,7 @@ namespace DungeonLib.Model
                     {
                         distanceOut = (size / 2);
 
-                        Map[currentx - i, currenty] = currentRoomNum;
+                        Map[currentx - i, currenty] = currentRoomNum;//Breaks
                         while (distanceOut > 0)
                         {
                             Map[currentx - i, currenty + distanceOut] = currentRoomNum;
@@ -266,7 +290,7 @@ namespace DungeonLib.Model
                     break;
                 case Direction.East:
                     Console.WriteLine("East");
-                    Map[currentx, currenty++] = 1;
+                    //Map[currentx, currenty++] = 1;
                     for (int i = 0; i < size; i++)
                     {
                         distanceOut = (size / 2);
@@ -296,7 +320,7 @@ namespace DungeonLib.Model
                 case Direction.West:
                     Console.WriteLine("West");
 
-                    Map[currentx, currenty--] = 1;
+                    //Map[currentx, currenty--] = 1;
                     for (int i = 0; i < size; i++)
                     {
                         distanceOut = (size / 2);
@@ -323,7 +347,7 @@ namespace DungeonLib.Model
         {
             bool result = false;
 
-            List<Direction> directions = GetDirectionsPossible(length);
+            List<Direction> directions = GetDirectionsPossible(length, CreationType.Corridor);
 
             if (directions.Count > 0)
             {
@@ -334,7 +358,7 @@ namespace DungeonLib.Model
         }
 
         //Checks if the area in the given direction is clear for a corridor of the given length
-        private bool IsClearForCorridor(Direction direction, int length)//, int x, int y)
+        private bool IsClearForCorridor(Direction direction, int length)
         {
             bool result = true;
             switch (direction)
@@ -344,144 +368,137 @@ namespace DungeonLib.Model
                     {
                         return false;
                     }
-                    else
+                    else if (currenty - 1 < 0)
                     {
-                        for (int i = 0; i < length; i++)
-                        {
-                            if (currentx - i < 0)
-                            {
-                                return false;
-                            }
-                            else if (currenty - 1 < 0)
-                            {
-                                return false;
-                            }
-                            else if (currenty + 1 >= Height)
-                            {
-                                return false;
-                            }
-                            else if (Map[currentx - i, currenty] != 0)
-                            {
-                                return false;
-                            }
-                            else if (Map[currentx - i, currenty - 1] != 0)
-                            {
-                                return false;
-                            }
-                            else if (Map[currentx - i, currenty + 1] != 0)
-                            {
-                                return false;
-                            }
-                        }
+                        return false;
                     }
+                    else if (currenty + 1 >= Height)
+                    {
+                        return false;
+                    }
+                    result = CheckForCorridor(length, currentx, currenty, -1, Direction.North);
+                    //for (int i = 0; i < length; i++)
+                    //{
+                    //    if (currentx - i < 0)
+                    //    {
+                    //        return false;
+                    //    }
+                    //    else if (Map[currentx - i, currenty] != 0)
+                    //    {
+                    //        return false;
+                    //    }
+                    //    else if (Map[currentx - i, currenty - 1] != 0)
+                    //    {
+                    //        return false;
+                    //    }
+                    //    else if (Map[currentx - i, currenty + 1] != 0)
+                    //    {
+                    //        return false;
+                    //    }
+                    //}
                     break;
                 case Direction.East:
                     if (currenty + length >= Height)
                     {
                         return false;
                     }
-                    else
+                    else if (currentx - 1 < 0)
                     {
-                        for (int i = 0; i < length; i++)
-                        {
-                            if (currenty + i >= Height)
-                            {
-                                return false;
-                            }
-                            else if (currentx - 1 < 0)
-                            {
-                                return false;
-                            }
-                            else if (currentx + 1 >= Width)
-                            {
-                                return false;
-                            }
-                            else if (Map[currentx, currenty + i] != 0)
-                            {
-                                return false;
-                            }
-                            else if (Map[currentx - 1, currenty + i] != 0)
-                            {
-                                return false;
-                            }
-                            else if (Map[currentx + 1, currenty + i] != 0)
-                            {
-                                return false;
-                            }
-                        }
+                        return false;
                     }
+                    else if (currentx + 1 >= Width)
+                    {
+                        return false;
+                    }
+                    result = CheckForCorridor(length, currentx, currenty, 1, Direction.East);
+                    //for (int i = 0; i < length; i++)
+                    //{
+                    //    if (currenty + i >= Height)
+                    //    {
+                    //        return false;
+                    //    }
+                    //    else if (Map[currentx, currenty + i] != 0)
+                    //    {
+                    //        return false;
+                    //    }
+                    //    else if (Map[currentx - 1, currenty + i] != 0)
+                    //    {
+                    //        return false;
+                    //    }
+                    //    else if (Map[currentx + 1, currenty + i] != 0)
+                    //    {
+                    //        return false;
+                    //    }
+                    //}
                     break;
                 case Direction.South:
                     if ((currentx + length >= Width))
                     {
                         return false;
                     }
-                    else
+                    else if (currenty - 1 < 0)
                     {
-                        for (int i = 0; i < length; i++)
-                        {
-                            if (currentx + i >= Width)
-                            {
-                                return false;
-                            }
-                            else if (currenty - 1 < 0)
-                            {
-                                return false;
-                            }
-                            else if (currenty + 1 >= Height)
-                            {
-                                return false;
-                            }
-                            else if (Map[currentx + i, currenty] != 0)
-                            {
-                                return false;
-                            }
-                            else if (Map[currentx + i, currenty - 1] != 0)
-                            {
-                                return false;
-                            }
-                            else if (Map[currentx + i, currenty + 1] != 0)//Breaks -- Fixed?
-                            {
-                                return false;
-                            }
-                        }
+                        return false;
                     }
+                    else if (currenty + 1 >= Height)
+                    {
+                        return false;
+                    }
+                    result = CheckForCorridor(length, currentx, currenty, 1, Direction.South);
+                    //for (int i = 0; i < length; i++)
+                    //{
+                    //    if (currentx + i >= Width)
+                    //    {
+                    //        return false;
+                    //    }
+                    //    else if (Map[currentx + i, currenty] != 0)
+                    //    {
+                    //        return false;
+                    //    }
+                    //    else if (Map[currentx + i, currenty - 1] != 0)
+                    //    {
+                    //        return false;
+                    //    }
+                    //    else if (Map[currentx + i, currenty + 1] != 0)//Breaks -- Fixed?
+                    //    {
+                    //        return false;
+                    //    }
+                    //}
                     break;
                 case Direction.West:
                     if (currenty - length < 0)
                     {
                         return false;
                     }
-                    else
+                    else if (currentx + 1 >= Width)
                     {
-                        for (int i = 0; i < length; i++)
-                        {
-                            if (currenty - i < 0)
-                            {
-                                return false;
-                            }
-                            else if (currentx - 1 < 0)
-                            {
-                                return false;
-                            }
-                            else if (currentx + 1 >= Width)
-                            {
-                                return false;
-                            }
-                            else if (Map[currentx, currenty - i] != 0)
-                            {
-                                return false;
-                            }
-                            else if (Map[currentx - 1, currenty - i] != 0)
-                            {
-                                return false;
-                            }
-                            else if (Map[currentx + 1, currenty - i] != 0)
-                            {
-                                return false;
-                            }
-                        }
+                        return false;
                     }
+                    else if (currentx - 1 < 0)
+                    {
+                        return false;
+                    }
+                    result = CheckForCorridor(length, currentx, currenty, -1, Direction.West);
+                    //for (int i = 0; i < length; i++)
+                    //{
+                    //    if (currenty - i < 0)
+                    //    {
+                    //        return false;
+                    //    }
+                    //    else if (Map[currentx, currenty - i] != 0)
+                    //    {
+                    //        return false;
+                    //    }
+                    //    else if (Map[currentx - 1, currenty - i] != 0)
+                    //    {
+                    //        return false;
+                    //    }
+                    //    else if (Map[currentx + 1, currenty - i] != 0)
+                    //    {
+                    //        return false;
+                    //    }
+                    //}
+
                     break;
                 default:
                     break;
@@ -493,14 +510,15 @@ namespace DungeonLib.Model
         private void AddCorridor(int x, int y, int length, Direction direction)
         {
             Console.WriteLine($"Corridor Length = {length}");
+            GoToRoomsEdge(direction);
             if (direction == Direction.North)
             {
                 Console.WriteLine("North");
                 for (int i = 0; i < length; i++)
                 {
                     Map[x - i, y] = 1;
+                    currentx--;
                 }
-                currentx -= length;
             }
             else if (direction == Direction.East)
             {
@@ -532,43 +550,202 @@ namespace DungeonLib.Model
         }
         #endregion
 
+        #region Checks
+        private bool CheckForCorridor(int length, int x, int y, int Mod, Direction direction)
+        {
+            //Works for North and South
+            if (direction == Direction.North || direction == Direction.South)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    if (x + (i * Mod) < 0 || x + (i * Mod) >= Width)
+                    {
+                        return false;
+                    }
+                    else if (Map[x + (i * Mod), y] != 0)
+                    {
+                        return false;
+                    }
+                    else if (Map[x + (i * Mod), y - 1] != 0 || Map[x + (i * Mod), y + 1] != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
 
-        //Returns a list of valid directions for creation -- Make this work for both rooms and corridors
-        private List<Direction> GetDirectionsPossible(int length)
+            //Works for East and West
+            if (direction == Direction.East || direction == Direction.West)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    if (y + (i * Mod) < 0 || y + (i * Mod) >= Height)
+                    {
+                        return false;
+                    }
+                    else if (Map[x, y + (i * Mod)] != 0)
+                    {
+                        return false;
+                    }
+                    else if (Map[x - 1, y + (i * Mod)] != 0 || Map[x + 1, y + (i * Mod)] != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private bool Check(int length, int x, int y, int Mod, Direction direction, int distanceOut)
+        {
+            //Works for North and South
+            if (direction == Direction.North || direction == Direction.South)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    if (x + (i * Mod) < 0 || x + (i * Mod) >= Width)
+                    {
+                        return false;
+                    }
+                    else if (Map[x + (i * Mod), y] != 0)
+                    {
+                        return false;
+                    }
+                    else if (Map[x + (i * Mod), y - distanceOut] != 0 || Map[x + (i * Mod), y + distanceOut] != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            //Works for East and West
+            if (direction == Direction.East || direction == Direction.West)
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    if (y + (i * Mod) < 0 || y + (i * Mod) >= Height)
+                    {
+                        return false;
+                    }
+                    else if (Map[x, y + (i * Mod)] != 0)
+                    {
+                        return false;
+                    }
+                    else if (Map[x - 1, y + (i * Mod)] != 0)
+                    {
+                        return false;
+                    }
+                    else if (Map[x + 1, y + (i * Mod)] != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private bool CheckForRoom(int size, int x, int y, int Mod, Direction direction, int distanceOut)
+        {
+            //Works for North and South
+            if (direction == Direction.North || direction == Direction.South)
+            {
+                for (int i = 0; i < size; i++)
+                {
+                    distanceOut = (size / 2);
+                    if (x + (i * Mod) < 0 || x + (i * Mod) >= Width)
+                    {
+                        return false;
+                    }
+                    if (Map[x + (i * Mod), y] != 0)
+                    {
+                        return false;
+                    }
+                    if (Map[x + (i * Mod), y - distanceOut] != 0 || Map[x + (i * Mod), y + distanceOut] != 0)
+                    {
+                        return false;
+                    }
+                    if (y - (distanceOut + 1) >= 0)
+                    {
+                        if (Map[x + (i * Mod), y - (distanceOut + 1)] != 0)
+                        {
+                            return false;
+                        }
+                    }
+                    if (y + (distanceOut + 1) > Height)
+                    {
+                        if (Map[x + (i * Mod), y + (distanceOut + 1)] != 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            //Works for East and West
+            if (direction == Direction.East || direction == Direction.West)
+            {
+                for (int i = 0; i < size; i++)
+                {
+                    distanceOut = (size / 2);
+                    if (y + (i * Mod) < 0 || x + (i * Mod) >= Height)
+                    {
+                        return false;
+                    }
+                    if (Map[x, y + (i * Mod)] != 0) //Breaks -- Fixed?
+                    {
+                        return false;
+                    }
+                    if (Map[x - distanceOut, y + (i * Mod)] != 0 || Map[x + distanceOut, y + (i * Mod)] != 0) //Breaks -- Fixed?
+                    {
+                        return false;
+                    }
+                    if (x - (distanceOut + 1) >= 0)
+                    {
+                        if (Map[x - (distanceOut + 1), y + (i * Mod)] != 0)
+                        {
+                            return false;
+                        }
+                    }
+                    if (x + (distanceOut + 1) > Width)
+                    {
+                        if (Map[x + (distanceOut + 1), y + (i * Mod)] != 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+        #endregion
+
+        //Returns a list of valid directions for creation
+        private List<Direction> GetDirectionsPossible(int size, CreationType creationType)
         {
             List<Direction> directions = new List<Direction>();
             Direction direction = Direction.North;
             int x = currentx;
             int y = currenty;
 
-
-            bool result = false;
-            for (int i = 0; i < 4; i++)//Note: I think I have flawed logic here with the x and y
-            {
-                result = false;
-                direction = (Direction)i;
-                GoToRoomsEdge(direction);
-                result = IsClearForCorridor(direction, length);
-                if (result)
-                {
-                    directions.Add(direction);
-                }
-            }
-            return directions;
-        }
-
-        //Returns a list of valid directions for creation -- Make this work for both rooms and corridors
-        private List<Direction> GetDirectionsPossibleRoom(int length)
-        {
-            List<Direction> directions = new List<Direction>();
-            Direction direction = Direction.North;
-
             bool result = false;
             for (int i = 0; i < 4; i++)
             {
                 result = false;
                 direction = (Direction)i;
-                result = IsClearForRoom(direction, length);
+
+                if (creationType == CreationType.Corridor)
+                {
+                    currentx = x;
+                    currenty = y;
+                    GoToRoomsEdge(direction);
+                    result = IsClearForCorridor(direction, size);
+                }
+                else
+                {
+                    result = IsClearForRoom(direction, size);
+                }
+
                 if (result)
                 {
                     directions.Add(direction);
@@ -577,25 +754,33 @@ namespace DungeonLib.Model
             return directions;
         }
 
-        //Puts current coordinates
+        //Sets current coords to rooms edge
         private void GoToRoomsEdge(Direction direction)
         {
-            if (Map[currentx, currenty] > 1)//Breaks (IndexOutOfRangeException)
+            if (Map[currentx, currenty] > 1)
             {
                 switch (direction)
                 {
                     case Direction.North:
-                        bool OnWall = false;
                         do
                         {
-                            if (currenty - 1 < 0)
+                            if (currentx - 1 < 0)
                             {
                                 break;
                             }
-                            //OnWall = (Map[currentx, --currenty] > 1);
-                        } while (Map[currentx, --currenty] > 1);//Breaks -- Fixed?
+                        } while (Map[--currentx, currenty] > 1);
                         break;
                     case Direction.East:
+                        do
+                        {
+                            if (currenty + 1 >= Height)
+                            {
+                                break;
+                            }
+                        } while (Map[currentx, ++currenty] > 1);//Breaks -- Fixed?
+                        break;
+                    case Direction.South:
+
                         do
                         {
                             if (currentx + 1 >= Width)
@@ -604,23 +789,15 @@ namespace DungeonLib.Model
                             }
                         } while (Map[++currentx, currenty] > 1);//Breaks -- Fixed? -- Still Breaks -- Fixed?
                         break;
-                    case Direction.South:
-                        do
-                        {
-                            if (currenty + 1 > Height)
-                            {
-                                break;
-                            }
-                        } while (Map[currentx, ++currenty] > 1);//Breaks -- Fixed?
-                        break;
                     case Direction.West:
+
                         do
                         {
-                            if (currentx - 1 < 0)
+                            if (currenty - 1 < 0)
                             {
                                 break;
                             }
-                        } while (Map[--currentx, currenty] > 1);
+                        } while (Map[currentx, --currenty] > 1);//Breaks -- Fixed?
                         break;
                     default:
                         break;
@@ -638,10 +815,10 @@ namespace DungeonLib.Model
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < Width - 1; i++)
+            for (int i = 0; i < Width; i++)
             {
                 string s = "";
-                for (int j = 0; j < Height - 1; j++)
+                for (int j = 0; j < Height; j++)
                 {
                     s = "";
                     if (Map[i, j] == 0)
@@ -652,9 +829,10 @@ namespace DungeonLib.Model
                     {
                         s += " 1 ";
                     }
-                    else if (Map[i, j] == 17)
+                    else if (Map[i, j] > 9)
                     {
-                        s += " S ";
+                        s += $" {(char)(87 + Map[i, j])} ";
+
                     }
                     else
                     {
