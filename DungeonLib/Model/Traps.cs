@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DungeonLib.Model
 {
-    public class Item
+    class Traps
     {
         public string Name { get; set; }
         public string Description { get; set; }
-
-        public int Value { get; set; }
+        public string Damage { get; set; }
+        public string DC_To_Avoid { get; set; }
 
     }
 }
