@@ -179,30 +179,40 @@ h6 {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    background: #50555C;
+    background: #222;
     color: #f5f5f5;
     height: 29px;
     overflow: hidden;
-    width: 240px;
+    width: 100%;
     font-family: 'Cabin', sans-serif;
 }
 .dropdown select {
     background: #C62828;
 }
 .divider {
-    width: 50%;
+    width: 40%;
     display: inline-block;
     float: left;
     color: #222;
-    text-align:center;
+    margin:0 5%;
+}
+input{
+    height:29px;
 }
 input[type=range] {
     height: 26px;
     -webkit-appearance: none;
-    margin: 10px 0;
     width: 100%;
+    background:none;
 }
-
+input[disabled][type=button], input[disabled][type=submit] {
+    border: 1px solid #f5f5f5;
+    background: #222;
+    color: #555;
+}
+input[disabled][type=range]::-webkit-slider-runnable-track {
+    background: #555;
+}
 input[type=range]:focus {
     outline: none;
 }
@@ -212,7 +222,7 @@ input[type=range]::-webkit-slider-runnable-track {
     height: 14px;
     cursor: pointer;
     box-shadow: 1px 1px 1px #50555C;
-    background: #50555C;
+    background: #C62828;
     border-radius: 14px;
 }
 
@@ -220,16 +230,60 @@ input[type=range]::-webkit-slider-thumb {
     height: 20px;
     width: 40px;
     border-radius: 12px;
-    background: #C62828;
+    background: url('Images/slider-decor.png') no-repeat center #222;
+    background-size:30px;
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -3px;
 }
-
+.divider p {
+    margin:5px 0px;
+}
   
+.login_p li{
+    list-style:none;
+    display:inline-block;
+    float:left;
+    margin:0 20px;
+}
+.login_p li a{
+    color:#f5f5f5;
+}
+.login_p li a:hover {
+    color: #C62828;
+}
+.input-weight {
+    width: 50px;
+    float: right;
+    height: 22px;
+}
 
-
-
-
-
-
+.half-divider {
+    width: 50%;
+    display: inline-block;
+    float: left;
+}
+#rm-small, #rm-medium, #rm-large,#rm-massive{
+    margin:0 5px;
+    vertical-align:middle;
+}
+#max-cr-slider, #min-cr-slider{
+    width:77%;
+}
+.monster-list {
+    width: 100%;
+    color: #f5f5f5;
+    background: #222;
+    height: 200px;
+    overflow:scroll;
+}
+.monster-item{
+    width:90%;
+    padding:10px 5%;
+    border-bottom:1px solid #f5f5f5;
+    font-size:.9em;
+}
+.monster-item:hover {
+    background: #C62828;
+    cursor:pointer;
+}

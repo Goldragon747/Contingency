@@ -9,6 +9,7 @@ namespace Contingency.Models
     {
         public enum DungeonSize
         {
+            None,
             Small,
             Medium,
             Large,
@@ -16,12 +17,14 @@ namespace Contingency.Models
         }
         public enum EnemyGroups
         {
+            Unspecified,
             Undead,
             Humanoid,
             NonHumanoid
         }
         public enum LootGroups
         {
+            Unspecified,
             Barren,
             Minimum,
             Mediocre,
@@ -52,6 +55,12 @@ namespace Contingency.Models
             Lvl18,
             Lvl19,
             Lvl20
+        }
+        public enum EnemyGroupAmounts
+        {
+            Scarce,
+            Plentiful,
+            Overflowing
         }
     }
 }

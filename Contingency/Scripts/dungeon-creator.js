@@ -10,25 +10,36 @@ var finalOk = document.getElementById("final-ok");
 var backButton = document.getElementById("back-button");
 var createTitle = document.getElementById("create-title");
 
+var err = document.getElementById("err");
+var monsterdone = false;
+var lootdone = false;
+
 function Next() {
-    switch (currentStage) {
-        case 1:
-            dimensionBox.style.display = "none";
-            monsterBox.style.display = "block";
-            createTitle.innerHTML = "Dungeon Monsters"
-            backButton.style.visibility = "visible";
-            preview.innerHTML = "";
-            break;
-        case 2:
-            monsterBox.style.display = "none";
-            lootBox.style.display = "block";
-            createTitle.innerHTML = "Dungeon Loot"
-            tempOk.style.display = "none";
-            finalOk.style.display = "block";
-            preview.innerHTML = "";
-            break;
-    }
-    currentStage++;
+    if (CheckValid()) {
+        err.innerHTML = "";
+        switch (currentStage) {
+            case 1:
+                if(!monsterdone)
+                document.getElementById('temp-ok').disabled = true;
+                dimensionBox.style.display = "none";
+                monsterBox.style.display = "block";
+                createTitle.innerHTML = "Dungeon Monsters"
+                backButton.style.visibility = "visible";
+                preview.innerHTML = "";
+                break;
+            case 2:
+                if(!lootdone)
+                document.getElementById('final-ok').disabled = true;
+                monsterBox.style.display = "none";
+                lootBox.style.display = "block";
+                createTitle.innerHTML = "Dungeon Loot"
+                tempOk.style.display = "none";
+                finalOk.style.display = "block";
+                preview.innerHTML = "";
+                break;
+        }
+        currentStage++;
+    } 
 }
 function Back() {
     switch (currentStage) {
@@ -38,6 +49,7 @@ function Back() {
             dimensionBox.style.display = "block";
             createTitle.innerHTML = "Dungeon Dimensions"
             backButton.style.visibility = "hidden";
+            document.getElementById('temp-ok').disabled = false;
             break;
         case 3:
             GenetateMonsters();
@@ -46,12 +58,16 @@ function Back() {
             createTitle.innerHTML = "Dungeon Monsters"
             finalOk.style.display = "none";
             tempOk.style.display = "block";
+            document.getElementById('temp-ok').disabled = false;
             break;
     }
     currentStage--;
 }
 function Generate() {
     if (CheckValid()) {
+        
+        document.getElementById('temp-ok').disabled = false;
+        err.innerHTML = "";
         switch (currentStage) {
             case 1:
                 GenerateDungeon(); break;
@@ -158,12 +174,36 @@ function GenerateDungeon2() {
     draw();
 }
 function GenetateMonsters() {
+    document.getElementById('temp-ok').disabled = false;
     preview.innerHTML = "Monsters! :D";
+    monsterdone = true;
 }
 function GenerateLoot() {
+    document.getElementById('final-ok').disabled = false;
     preview.innerHTML = "Loot! :D";
+    lootdone = true;
 }
 function CheckValid() {
-    //TODO
+    switch (currentStage) {
+        case 1:
+            if (document.getElementById("widthFinal").value >= 15 &&
+                document.getElementById("widthFinal").value <= 200 &&
+                document.getElementById("heightFinal").value >= 15 &&
+                document.getElementById("heightFinal").value <= 200) {
+                if ((document.getElementById("rm-small").checked) ||
+                    (document.getElementById("rm-medium").checked) ||
+                    (document.getElementById("rm-large").checked) ||
+                    (document.getElementById("rm-massive").checked)) {
+                    return true;
+                } else {
+                    err.innerHTML = "<p>*Must have at least one room group.</p>";
+                    return false;
+                }
+                
+            } else {
+                err.innerHTML = "<p>*Width and Height must be between 15-200</p>";
+                return false;
+            }
+    }
     return true;
 }
