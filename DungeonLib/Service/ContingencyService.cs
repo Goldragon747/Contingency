@@ -8,7 +8,7 @@ using DungeonLib.Model;
 
 namespace DungeonLib.Service
 {
-    class ContingencyService
+    public class ContingencyService
     {
         public MonstersList getAllMonsters()
         {

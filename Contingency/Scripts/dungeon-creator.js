@@ -13,7 +13,7 @@ var createTitle = document.getElementById("create-title");
 var err = document.getElementById("err");
 var monsterdone = false;
 var lootdone = false;
-
+var map;
 function Next() {
     if (CheckValid()) {
         err.innerHTML = "";
@@ -63,27 +63,14 @@ function Back() {
     }
     currentStage--;
 }
-function Generate() {
-    if (CheckValid()) {
-        
-        document.getElementById('temp-ok').disabled = false;
-        err.innerHTML = "";
-        switch (currentStage) {
-            case 1:
-                GenerateDungeon(); break;
-            case 2:
-                GenetateMonsters(); break;
-            case 3:
-                GenerateLoot(); break;
-        }
-    }
-}
+
 function GenerateDungeon() {
     preview.innerHTML = "<canvas id='dungeon-canvas' width='500' height='500'></canvas>";
     var canvas = document.getElementById("dungeon-canvas");
     var ctx = canvas.getContext('2d');
     var blocksize;
-    var map = [
+
+    map = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0],
         [1, 1, 1, 2, 2, 2, 0, 4, 4, 4, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0],
@@ -131,7 +118,7 @@ function GenerateDungeon2() {
     var canvas = document.getElementById("dungeon-canvas");
     var ctx = canvas.getContext('2d');
     var blocksize;
-    var map = [
+    map = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0],
         [1, 1, 1, 2, 2, 2, 0, 4, 4, 4, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0],

@@ -4,11 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using static Contingency.Models.Enums;
+using DungeonLib.Service;
 
 namespace Contingency.Models
 {
     public class DungeonCreator
     {
+        private ContingencyService service;
+        public MonstersList Monsters { get; set; }
+        public DungeonCreator()
+        {
+            service = new ContingencyService();
+            Monsters = service.getAllMonsters();
+        }
         public DungeonSize Preset { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
@@ -32,10 +40,10 @@ namespace Contingency.Models
         public int LootByAmount { get; set; }
         public int MinValue { get; set; }
         public int[,] Dungeon { get; set; }
-
+        
         public void MakeDungeon()
         {
-            Dungeon d = new Dungeon("DungeonGenerator",Width,Height,1);
+            Dungeon d = new Dungeon("DungeonGenerator",Width,Height,RoomWeightSmall,RoomWeightMedium,RoomWeightLarge,RoomWeightMassive);
             Dungeon = d.Map;
         }
     }

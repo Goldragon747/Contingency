@@ -7,7 +7,7 @@ using ContingencyDal;
 
 namespace DungeonLib.Model
 {
-    class MonstersList
+    public class MonstersList
     { 
             public List<ContingencyDal.Monster> Monsters{ get; set; }
 
