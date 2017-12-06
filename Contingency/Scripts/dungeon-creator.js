@@ -10,6 +10,30 @@ var finalOk = document.getElementById("final-ok");
 var backButton = document.getElementById("back-button");
 var createTitle = document.getElementById("create-title");
 
+var canvas = document.getElementById("dungeon-canvas");
+var map = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0],
+    [1, 1, 1, 2, 2, 2, 0, 4, 4, 4, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0],
+    [0, 0, 0, 2, 2, 2, 0, 4, 4, 4, 1, 1, 5, 5, 5, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 4, 4, 4, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0],
+    [0, 0, 3, 3, 3, 3, 3, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 3, 3, 3, 3, 3, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 3, 3, 3, 3, 3, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0],
+    [0, 0, 0, 8, 8, 8, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0],
+    [0, 0, 0, 8, 8, 8, 1, 1, 0, 0, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0],
+    [0, 0, 0, 8, 8, 8, 0, 1, 0, 0, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0],
+    [0, 0, 0, 8, 8, 8, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 9, 9, 9, 9, 9, 0],
+    [0, 0, 0, 0, 7, 7, 7, 0, 0, 1, 0, 0, 1, 0, 9, 9, 9, 9, 9, 0],
+    [0, 0, 1, 1, 7, 7, 7, 1, 1, 1, 1, 1, 1, 1, 9, 9, 9, 9, 9, 0],
+    [0, 0, 1, 0, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 0],
+    [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 0]
+];
+
 var err = document.getElementById("err");
 var monsterdone = false;
 var lootdone = false;
@@ -103,7 +127,7 @@ function GenerateDungeon() {
                 } else {
                     drawRect(j * blocksize, i * blocksize, 55, 255, 55);
                 }
-            }
+            }                                          
         }
     }
     function drawRect(x, y, r, g, b) {
@@ -112,10 +136,51 @@ function GenerateDungeon() {
     }
     draw();
 }
+
+
+
 function GenerateDungeon2() {
-    console.log("hello");
     document.getElementById("dung-canvas").innerHTML = "<canvas id='dungeon-canvas' width='500' height='500'></canvas>";
     var canvas = document.getElementById("dungeon-canvas");
+    canvas.addEventListener("click", function (event) {
+        var mousX = event.pageX;
+        var mousY = event.pageY;
+        //console.log(mousY);
+        if (124 <= mousX && mousX <= 200) {
+            if (171 <= mousY && mousY <= 244) {
+                //.location.href = "/Dungeon/Room/99999/2";
+                console.log("Room 2");
+            }
+        } if (100 <= mousX && mousX <= 225) {
+            if (275 <= mousY && mousY <= 375) {
+                console.log("Room 3");
+            }
+        } if (225 <= mousX && mousX <= 300) {
+            if (197 <= mousY && mousY <= 272) {
+                console.log("Room 4");
+            }
+        } if (350 <= mousX && mousX <= 425) {
+            if (171 <= mousY && mousY <= 298) {
+                console.log("Room 5");
+            }
+        } if (300 <= mousX && mousX <= 450) {
+            if (398 <= mousY && mousY <= 497) {
+                console.log("Room 6");
+            }
+        } if (400 <= mousX && mousX <= 524) {
+            if (500 <= mousY && mousY <= 624) {
+                console.log("Room 7");
+            }
+        } if (125 <= mousX && mousX <= 200) {
+            if (423 <= mousY && mousY <= 520) {
+                console.log("Room 8")
+            }
+        } if (150 <= mousX && mousX <= 223) {
+            if (547 <= mousY && mousY <= 620) {
+                console.log("Room 9");
+            }
+        }
+    })
     var ctx = canvas.getContext('2d');
     var blocksize;
     map = [
@@ -170,6 +235,7 @@ function GenerateLoot() {
     preview.innerHTML = "Loot! :D";
     lootdone = true;
 }
+
 function CheckValid() {
     switch (currentStage) {
         case 1:
