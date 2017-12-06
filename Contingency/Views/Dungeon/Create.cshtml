@@ -11,70 +11,185 @@
         @using (Html.BeginForm())
         {
             <div id="dimensions">
-                Traps
-                @Html.CheckBoxFor(model => model.Traps)
-                <br />
-                CR
-                @Html.EnumDropDownListFor(model => model.CR)
-                <br />
-                Dungeon Size
-                @Html.EnumDropDownListFor(model => model.DS)
-                <br />
-                Loot Group
-                @Html.EnumDropDownListFor(model => model.LG)
-                <br />
-                Enemy Group
-                @Html.EnumDropDownListFor(model => model.EG)
-                <br />
-                Loot By Amount
-                @Html.TextBoxFor(model => model.LootByAmount)
-                <br />
-                Minimum Loot Value
-                @Html.TextBoxFor(model => model.MinValue)
-                <br />
-                Dungeon Height(5ft Squares)
-                <input type="range" min="0" max="100" />
-                <br/>
-                Dungeon Width(5ft Squares)
-                <input type="range" min="0" max="100" />
-                <br/>
-                CR
-                <input type="range" min="0" max="21" list="tickmarks"/>
-                <datalist id="tickmarks">
-                    <option value="0" label="1/4">
-                    <option value="1" label="1/2">
-                    <option value="2" label="1">
-                    <option value="3" label="2">
-                    <option value="4" label="3">
-                    <option value="5" label="4">
-                    <option value="6" label="5">
-                    <option value="7" label="6">
-                    <option value="8" label="7">
-                    <option value="9" label="8">
-                    <option value="10" label="9">
-                    <option value="11" label="10">
-                    <option value="12" label="11">
-                    <option value="13" label="12">
-                    <option value="14" label="13">
-                    <option value="15" label="14">
-                    <option value="16" label="15">
-                    <option value="17" label="16">
-                    <option value="18" label="17">
-                    <option value="19" label="18">
-                    <option value="20" label="19">
-                    <option value="21" label="20">
-                </datalist>
+                <div class="divider">
+                    <p>Size Presets</p>
+                    @Html.EnumDropDownListFor(model => model.Preset, new { @class = "dropdown",@id = "preset" })
+                    <p>Dungeon Width(5ft Squares)</p>
+                    <input type="range" value="15" min="15" max="200" list="size-ticks" id="width-slider" />
+                    <p>Dungeon Height(5ft Squares)</p>
+                    <input type="range" value="15" min="15" max="200" list="size-ticks" id="height-slider" />
+                    <datalist id="size-ticks">
+                        <option value="15">
+                        <option value="16">
+                        <option value="17">
+                        <option value="18">
+                        <option value="19">
+                        <option value="20">
+                        <option value="22">
+                        <option value="24">
+                        <option value="26">
+                        <option value="28">
+                        <option value="30">
+                        <option value="35">
+                        <option value="40">
+                        <option value="45">
+                        <option value="50">
+                        <option value="55">
+                        <option value="60">
+                        <option value="65">
+                        <option value="70">
+                        <option value="75">
+                        <option value="80">
+                        <option value="85">
+                        <option value="90">
+                        <option value="95">
+                        <option value="100">
+                        <option value="110">
+                        <option value="120">
+                        <option value="130">
+                        <option value="140">
+                        <option value="150">
+                        <option value="160">
+                        <option value="170">
+                        <option value="180">
+                        <option value="190">
+                        <option value="200">
+                    </datalist>
+                    <p>Final Width</p>
+                    @Html.TextBoxFor(model => model.Width, new { @id = "widthFinal", @Value = 15 })
+                    <p>Final Height</p>
+                    @Html.TextBoxFor(model => model.Height, new { @id = "heightFinal", @Value = 15 })
+                </div>
+                <div class="divider">
+                    <p>
+                        <div class="half-divider">Small Rooms? <input type="checkbox" id="rm-small" checked /></div>
+                        <div class="half-divider">Medium Rooms? <input type="checkbox" id="rm-medium" checked /></div>
+                    </p>
+                    <p>
+                        <div class="half-divider">Large Rooms? <input type="checkbox" id="rm-large" checked /></div>
+                        <div class="half-divider">Massive Rooms? <input type="checkbox" id="rm-massive" checked /></div>
+                    </p>
+                    <div id="weight-sliders">
+                        
+                       
+                    </div>
+                    <p>
+                        Small Frequency:
+                        @Html.TextBoxFor(model => model.RoomWeightSmall, new { @id = "rm-small-final", @class = "input-weight", @Value = 1 })
+                    </p>
+                    <input type="range" value="1" min="0" max="15" list="room-ticks" id="small-slider" />
+                    <p>
+                        Medium Frequency:
+                        @Html.TextBoxFor(model => model.RoomWeightSmall, new { @id = "rm-medium-final", @class = "input-weight", @Value = 1 })
+                    </p>
+                    <input type="range" value="1" min="0" max="15" list="room-ticks" id="medium-slider" />
+                    <p>
+                        Large Frequency:
+                        @Html.TextBoxFor(model => model.RoomWeightSmall, new { @id = "rm-large-final", @class = "input-weight", @Value = 1 })
+                    </p>
+                    <input type="range" value="1" min="0" max="15" list="room-ticks" id="large-slider" />
+                    <p>
+                        Massive Frequency:
+                        @Html.TextBoxFor(model => model.RoomWeightSmall, new { @id = "rm-massive-final", @class = "input-weight", @Value = 1 })
+                    </p>
+                    <input type="range" value="1" min="0" max="15" list="room-ticks" id="massive-slider" />
+                    <datalist id="room-ticks">
+                        <option value="1">
+                        <option value="2">
+                        <option value="3">
+                        <option value="4">
+                        <option value="5">
+                        <option value="6">
+                        <option value="7">
+                        <option value="8">
+                        <option value="9">
+                        <option value="10">
+                        <option value="11">
+                        <option value="12">
+                        <option value="13">
+                        <option value="14">
+                        <option value="15">
+                    </datalist>
+                 </div>
             </div>
             <div id="monsters">
-                <input class="input-field" type="text" value="testing text 2">
+                <div class="divider">
+                    <p>Monsters by player level:</p>
+                    @Html.EnumDropDownListFor(model => model.CR, new { @class = "dropdown" })
+                    <p>Minimum Challenge Rating (CR):</p>
+                    <p>
+                        <input type="range" min="0" max="21" list="tickmarks" value="0" id="min-cr-slider" />
+                        @Html.TextBoxFor(model => model.MinCR, new { @id = "min-cr", @class = "input-weight",@Value="1/4" })
+                    </p>
+                    <p>Maximum Challenge Rating (CR):</p>
+                    <p>
+                        <input type="range" min="0" max="21" list="tickmarks" value="2" id="max-cr-slider" />
+                        @Html.TextBoxFor(model => model.MaxCR, new { @id = "max-cr", @class = "input-weight", @Value=1 })
+                    </p>
+                    <datalist id="tickmarks">
+                        <option value="0" label="1/4">
+                        <option value="1" label="1/2">
+                        <option value="2" label="1">
+                        <option value="3" label="2">
+                        <option value="4" label="3">
+                        <option value="5" label="4">
+                        <option value="6" label="5">
+                        <option value="7" label="6">
+                        <option value="8" label="7">
+                        <option value="9" label="8">
+                        <option value="10" label="9">
+                        <option value="11" label="10">
+                        <option value="12" label="11">
+                        <option value="13" label="12">
+                        <option value="14" label="13">
+                        <option value="15" label="14">
+                        <option value="16" label="15">
+                        <option value="17" label="16">
+                        <option value="18" label="17">
+                        <option value="19" label="18">
+                        <option value="20" label="19">
+                        <option value="21" label="20">
+                    </datalist>
+                    <p>Enemy Group</p>
+                    @Html.EnumDropDownListFor(model => model.EnemyGroup, new { @class = "dropdown" })
+                    <p>Enemy Quantities</p>
+                    @Html.EnumDropDownListFor(model => model.EnemyGroupAmount, new { @class = "dropdown" })
+                </div>
+                <div class="divider">
+                    <p>Add Specific Monsters</p>
+                    <div class="monster-list">
+                        <div class="monster-item">Monster #1</div>
+                        <div class="monster-item">Monster #2</div>
+                        <div class="monster-item">Monster #3</div>
+                        <div class="monster-item">Monster #4</div>
+                        <div class="monster-item">Monster #5</div>
+                        <div class="monster-item">Monster #6</div>
+                        <div class="monster-item">Monster #7</div>
+                        <div class="monster-item">Monster #8</div>
+                    </div>
+                </div>
             </div>
             <div id="loot">
-                <input class="input-field" type="text" value="testing text 3">
+                <div class="divider">
+                    <p>Loot Group</p>
+                    @Html.EnumDropDownListFor(model => model.LootGroups, new { @class = "dropdown" })
+                    <p>Loot By Amount</p>
+                    @Html.TextBoxFor(model => model.LootByAmount)
+                    <p>Minimum Loot Value</p>
+                    @Html.TextBoxFor(model => model.MinValue)
+                </div>
+                <div class="divider">
+                    
+                    <p>
+                        Traps
+                        @Html.CheckBoxFor(model => model.Traps)
+                    </p>
+                </div>
             </div>
             <div id="submit_container">
                 <input type="button" class="button" id="back-button" onclick="Back()">
                 <input type="button" class="ok-button button" onclick="Generate()" value="Generate">
-                <input type="button" class="ok-button button" id="temp-ok" onclick="Next()" value="OK">
+                <input type="button" class="ok-button button" id="temp-ok" onclick="Next()" value="OK" disabled>
                 <input class="ok-button button" id="final-ok" type="submit" value="Finish" />
             </div>
         }
@@ -84,10 +199,277 @@
 
         </div>
         <div id="err">
-            <p>*Error message</p>
-            <p>*Error message</p>
-            <p>*Error message</p>
+            <!--<p>*Error message</p>-->
         </div>
     </div>
 </div>
 <script src="~/Scripts/dungeon-creator.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('height-slider').onchange = changeHeightEventHandler;
+        document.getElementById('width-slider').onchange = changeWidthEventHandler;
+        document.getElementById('preset').onchange = changeSizePresetEventHandler;
+
+        document.getElementById('small-slider').onchange = changeSmallWeightEventHandler;
+        document.getElementById('medium-slider').onchange = changeMediumWeightEventHandler;
+        document.getElementById('large-slider').onchange = changeLargeWeightEventHandler;
+        document.getElementById('massive-slider').onchange = changeMassiveWeightEventHandler;
+
+        document.getElementById('rm-small').onchange = changeSmallEnabledEventHandler;
+        document.getElementById('rm-medium').onchange = changeMediumEnabledEventHandler;
+        document.getElementById('rm-large').onchange = changeLargeEnabledEventHandler;
+        document.getElementById('rm-massive').onchange = changeMassiveEnabledEventHandler;
+
+        document.getElementById('min-cr-slider').onchange = changeMinCREventHandler;
+        document.getElementById('max-cr-slider').onchange = changeMaxCREventHandler;
+    }, false);
+
+    function changeWidthEventHandler(event) {
+        document.getElementById('widthFinal').value = event.target.value;
+    }
+    function changeHeightEventHandler(event) {
+        document.getElementById('heightFinal').value = event.target.value;
+    }
+    function changeSizePresetEventHandler(event) {
+        console.log(event.target.value);
+        switch (event.target.value) {
+            case "1":
+                small = false;
+                medium = true;
+                large = true;
+                massive = true;
+                document.getElementById('widthFinal').value = 25;
+                document.getElementById('heightFinal').value = 25;
+                document.getElementById('width-slider').value = 25;
+                document.getElementById('height-slider').value = 25;
+
+                document.getElementById('rm-small').checked = true;
+                document.getElementById('rm-small-final').disabled = false;
+                document.getElementById('small-slider').disabled = false;
+                document.getElementById('rm-small-final').value = 1;
+                document.getElementById('small-slider').value = 1;
+
+                document.getElementById('rm-medium').checked = false;
+                document.getElementById('rm-medium-final').disabled = true;
+                document.getElementById('medium-slider').disabled = true;
+                document.getElementById('rm-medium-final').value = 0;
+                document.getElementById('medium-slider').value = 0;
+
+                document.getElementById('rm-large').checked = false;
+                document.getElementById('rm-large-final').disabled = true;
+                document.getElementById('large-slider').disabled = true;
+                document.getElementById('rm-large-final').value = 0;
+                document.getElementById('large-slider').value = 0;
+
+                document.getElementById('rm-massive').checked = false;
+                document.getElementById('rm-massive-final').disabled = true;
+                document.getElementById('massive-slider').disabled = true;
+                document.getElementById('rm-massive-final').value = 0;
+                document.getElementById('massive-slider').value = 0;
+                break;
+            case "2":
+                small = false;
+                medium = false;
+                large = true;
+                massive = true;
+                document.getElementById('widthFinal').value = 40;
+                document.getElementById('heightFinal').value = 40;
+                document.getElementById('width-slider').value = 40;
+                document.getElementById('height-slider').value = 40;
+
+                document.getElementById('rm-small').checked = true;
+                document.getElementById('rm-small-final').disabled = false;
+                document.getElementById('small-slider').disabled = false;
+                document.getElementById('rm-small-final').value = 1;
+                document.getElementById('small-slider').value = 1;
+
+                document.getElementById('rm-medium').checked = true;
+                document.getElementById('rm-medium-final').disabled = false;
+                document.getElementById('medium-slider').disabled = false;
+                document.getElementById('rm-medium-final').value = 2;
+                document.getElementById('medium-slider').value = 2;
+
+                document.getElementById('rm-large').checked = false;
+                document.getElementById('rm-large-final').disabled = true;
+                document.getElementById('large-slider').disabled = true;
+                document.getElementById('rm-large-final').value = 0;
+                document.getElementById('large-slider').value = 0;
+
+                document.getElementById('rm-massive').checked = false;
+                document.getElementById('rm-massive-final').disabled = true;
+                document.getElementById('massive-slider').disabled = true;
+                document.getElementById('rm-massive-final').value = 0;
+                document.getElementById('massive-slider').value = 0;
+                break;
+            case "3":
+                small = false;
+                medium = false;
+                large = false;
+                massive = true;
+                document.getElementById('widthFinal').value = 90;
+                document.getElementById('heightFinal').value = 90;
+                document.getElementById('width-slider').value = 90;
+                document.getElementById('height-slider').value = 90;
+
+                document.getElementById('rm-small').checked = true;
+                document.getElementById('rm-small-final').disabled = false;
+                document.getElementById('small-slider').disabled = false;
+                document.getElementById('rm-small-final').value = 1;
+                document.getElementById('small-slider').value = 1;
+
+                document.getElementById('rm-medium').checked = true;
+                document.getElementById('rm-medium-final').disabled = false;
+                document.getElementById('medium-slider').disabled = false;
+                document.getElementById('rm-medium-final').value = 2;
+                document.getElementById('medium-slider').value = 2;
+
+                document.getElementById('rm-large').checked = true;
+                document.getElementById('rm-large-final').disabled = false;
+                document.getElementById('large-slider').disabled = false;
+                document.getElementById('rm-large-final').value = 4;
+                document.getElementById('large-slider').value = 4;
+
+                document.getElementById('rm-massive').checked = false;
+                document.getElementById('rm-massive-final').disabled = true;
+                document.getElementById('massive-slider').disabled = true;
+                document.getElementById('rm-massive-final').value = 0;
+                document.getElementById('massive-slider').value = 0;
+                break;
+            case "4":
+                small = false;
+                medium = false;
+                large = false;
+                massive = false;
+                document.getElementById('widthFinal').value = 150;
+                document.getElementById('heightFinal').value = 150;
+                document.getElementById('width-slider').value = 150;
+                document.getElementById('height-slider').value = 150;
+
+                document.getElementById('rm-small').checked = true;
+                document.getElementById('rm-small-final').disabled = false;
+                document.getElementById('small-slider').disabled = false;
+                document.getElementById('rm-small-final').value = 1;
+                document.getElementById('small-slider').value = 1;
+
+                document.getElementById('rm-medium').checked = true;
+                document.getElementById('rm-medium-final').disabled = false;
+                document.getElementById('medium-slider').disabled = false;
+                document.getElementById('rm-medium-final').value = 2;
+                document.getElementById('medium-slider').value = 2;
+
+                document.getElementById('rm-large').checked = true;
+                document.getElementById('rm-large-final').disabled = false;
+                document.getElementById('large-slider').disabled = false;
+                document.getElementById('rm-large-final').value = 4;
+                document.getElementById('large-slider').value = 4;
+
+                document.getElementById('rm-massive').checked = true;
+                document.getElementById('rm-massive-final').disabled = false;
+                document.getElementById('massive-slider').disabled = false;
+                document.getElementById('rm-massive-final').value = 8;
+                document.getElementById('massive-slider').value = 8;
+                break;
+            case "0":
+                small = false;
+                medium = false;
+                large = false;
+                massive = false;
+                document.getElementById('widthFinal').value = 15;
+                document.getElementById('heightFinal').value = 15;
+                document.getElementById('width-slider').value = 15;
+                document.getElementById('height-slider').value = 15;
+
+                document.getElementById('rm-small').checked = true;
+                document.getElementById('rm-small-final').disabled = false;
+                document.getElementById('small-slider').disabled = false;
+                document.getElementById('rm-small-final').value = 1;
+                document.getElementById('small-slider').value = 1;
+
+                document.getElementById('rm-medium').checked = true;
+                document.getElementById('rm-medium-final').disabled = false;
+                document.getElementById('medium-slider').disabled = false;
+                document.getElementById('rm-medium-final').value = 1;
+                document.getElementById('medium-slider').value = 1;
+
+                document.getElementById('rm-large').checked = true;
+                document.getElementById('rm-large-final').disabled = false;
+                document.getElementById('large-slider').disabled = false;
+                document.getElementById('rm-large-final').value = 1;
+                document.getElementById('large-slider').value = 1;
+
+                document.getElementById('rm-massive').checked = true;
+                document.getElementById('rm-massive-final').disabled = false;
+                document.getElementById('massive-slider').disabled = false;
+                document.getElementById('rm-massive-final').value = 1;
+                document.getElementById('massive-slider').value = 1;
+                break;
+        }
+        
+    }
+    function changeSmallWeightEventHandler(event) {
+        document.getElementById('rm-small-final').value = event.target.value;
+    }
+    function changeMediumWeightEventHandler(event) {
+        document.getElementById('rm-medium-final').value = event.target.value;
+    }
+    function changeLargeWeightEventHandler(event) {
+        document.getElementById('rm-large-final').value = event.target.value;
+    }
+    function changeMassiveWeightEventHandler(event) {
+        document.getElementById('rm-massive-final').value = event.target.value;
+    }
+    var small = false;
+    var medium = false;
+    var large = false;
+    var massive = false;
+    function changeSmallEnabledEventHandler(event) {
+        document.getElementById('rm-small-final').disabled = small ? false : true;
+        document.getElementById('small-slider').disabled = small ? false : true;
+        document.getElementById('rm-small-final').value = small ? 1 : 0;
+        document.getElementById('small-slider').value = small ? 1 : 0;
+        small = small ? false : true;
+    }
+    function changeMediumEnabledEventHandler(event) {
+        document.getElementById('rm-medium-final').disabled = medium ? false : true;
+        document.getElementById('medium-slider').disabled = medium ? false : true;
+        document.getElementById('rm-medium-final').value = medium ? 1 : 0;
+        document.getElementById('medium-slider').value = medium ? 1 : 0;
+        medium = medium ? false : true;
+    }
+    function changeLargeEnabledEventHandler(event) {
+        document.getElementById('rm-large-final').disabled = large ? false : true;
+        document.getElementById('large-slider').disabled = large ? false : true;
+        document.getElementById('rm-large-final').value = large ? 1 : 0;
+        document.getElementById('large-slider').value = large ? 1 : 0;
+        large = large ? false : true;
+    }
+    function changeMassiveEnabledEventHandler(event) {
+        document.getElementById('rm-massive-final').disabled = massive ? false : true;
+        document.getElementById('massive-slider').disabled = massive ? false : true;
+        document.getElementById('rm-massive-final').value = massive ? 1 : 0;
+        document.getElementById('massive-slider').value = massive ? 1 : 0;
+        massive = massive ? false : true;
+    }
+    function changeMinCREventHandler(event) {
+        document.getElementById('min-cr').value = parseInt(event.target.value) - 1;
+        switch (parseInt(event.target.value)) {
+            case 0:
+                document.getElementById('min-cr').value = "1/4";
+                break;
+            case 1:
+                document.getElementById('min-cr').value = "1/2";
+                break;
+        }
+    }
+    function changeMaxCREventHandler(event) {
+        document.getElementById('max-cr').value = parseInt(event.target.value) - 1;
+        switch (parseInt(event.target.value)) {
+            case 0:
+                document.getElementById('max-cr').value = "1/4";
+                break;
+            case 1:
+                document.getElementById('max-cr').value = "1/2";
+                break;
+        }
+    }
+</script>
